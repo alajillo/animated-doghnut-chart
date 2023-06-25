@@ -27,7 +27,7 @@ const App = () => {
 		<ul ref={listContainerRef} className={'m-10 flex flex-col'}>
 			{
 				valueList.map((value, index) => (
-					<li key={index} className={'w-40 h-40 mb-96'}>
+					<li key={index} className={'w-80 h-80 mb-44'}>
 						<AnimatedDoughnut startAnimation={startAnimationList[index]} value={value}/>
 					</li>
 				))

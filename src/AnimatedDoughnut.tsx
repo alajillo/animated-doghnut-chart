@@ -1,5 +1,5 @@
 import * as d3 from 'd3-shape'
-import { animated, useSpring } from '@react-spring/web'
+import { animated, useSpringValue } from '@react-spring/web'
 import { useEffect, useMemo } from "react";
 
 const colorList = ['red', 'blue', 'yellow', 'violet', 'green']
@@ -9,15 +9,10 @@ type AnimatedDoughnutProps = {
 	startAnimation: boolean
 }
 const AnimatedDoughnut = ({ value, startAnimation }: AnimatedDoughnutProps) => {
-	const [props, api] = useSpring(() => ({
-		from: { x: 0 }
-	}))
+	const props = useSpringValue(0)
 	useEffect(() => {
 		if(startAnimation){
-			api.start({
-				from: { x: 0 },
-				to: { x: value },
-			})
+			props.start(value)
 		}
 	},[startAnimation])
 
@@ -35,11 +30,15 @@ const AnimatedDoughnut = ({ value, startAnimation }: AnimatedDoughnutProps) => {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	const fullPath = fullArc()
+
+
+
+
 	return (
 		<svg className='w-full h-full' viewBox={'0 0 200 200'}>
 			<g transform={'translate(100 100)'}>
 				<path d={fullPath} className=' fill-slate-100'/>
-				<animated.path d={props.x.to((value) => {
+				<animated.path d={props.to((value) => {
 					const arc = d3.arc()
 						.innerRadius(70)
 						.outerRadius(100)
@@ -53,6 +52,7 @@ const AnimatedDoughnut = ({ value, startAnimation }: AnimatedDoughnutProps) => {
 				className={colorClassName}
 				/>
 			</g>
+
 		</svg>
 	)
 }
